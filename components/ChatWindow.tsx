@@ -43,9 +43,9 @@ export default function ChatWindow() {
 					description: 'Please try again later',
 				})
 			}
-
 			setIsLoading(false)
 		} catch (e) {
+            console.log(e)
 			toast({
 				title: 'Oops! Something went wrong.',
 				description: 'Please try again later',
