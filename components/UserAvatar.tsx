@@ -1,16 +1,13 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useSession, signIn, signOut } from 'next-auth/react'
-import Image from 'next/image'
 import { UserNavbar } from './UserNavbar'
 import Link from 'next/link'
 import { ComponentPlaceholderIcon } from '@radix-ui/react-icons'
-import { useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 
 export default function UserAvatar() {
-	const { data: session, status } = useSession()
-
+    const { data: session, status } = useSession()
 	if (status === 'loading') {
 		return (
 			<Button disabled className="flex justify-center items-center gap-1">

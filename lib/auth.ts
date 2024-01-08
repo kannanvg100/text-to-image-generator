@@ -1,11 +1,14 @@
 import { NextAuthOptions } from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import Google from 'next-auth/providers/google'
-export const authOptions: NextAuthOptions = {
-	// Secret for Next-auth, without this JWT encryption/decryption won't work
-	secret: process.env.NEXTAUTH_SECRET,
+import init from './mongodb'
+import User from '../models/User'
 
-	// Configure one or more authentication providers
+export const authOptions: NextAuthOptions = {
+	secret: process.env.NEXTAUTH_SECRET,
+	session: {
+		strategy: 'jwt',
+	},
 	providers: [
 		GithubProvider({
 			clientId: process.env.GITHUB_ID as string,
@@ -16,4 +19,22 @@ export const authOptions: NextAuthOptions = {
 			clientSecret: process.env.GOOGLE_SECRET as string,
 		}),
 	],
+	events: {
+		async signIn(message) {
+			init()
+			try {
+				await User.findOneAndUpdate(
+					{ email: message.user.email, method: message.account?.provider },
+					{
+						name: message.user.name,
+						email: message.user.email,
+						picture: message.user.image,
+					},
+					{ upsert: true }
+				)
+			} catch (err) {
+				console.log('db na')
+			}
+		},
+	},
 }

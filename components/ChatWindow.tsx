@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useSession } from 'next-auth/react'
 
 interface DataItem {
 	image: string
@@ -15,10 +16,11 @@ interface DataItem {
 }
 
 export default function ChatWindow() {
+	const { data: session, status } = useSession()
 	const [query, setQuery] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 	const { toast } = useToast()
-    const scrollRef = useRef<HTMLDivElement>(null)
+	const scrollRef = useRef<HTMLDivElement>(null)
 	const [data, setData] = useState<DataItem[]>([
 		{
 			image: 'https://replicate.com/api/models/stability-ai/stable-diffusion/files/50fcac81-865d-499e-81ac-49de0cb79264/out-0.png',
@@ -34,7 +36,7 @@ export default function ChatWindow() {
 			if (res?.success) {
 				setData((prev) => [...prev, { image: res.output[0], prompt: query }])
 				setQuery('')
-                scrollRef.current?.scrollIntoView(false)
+				scrollRef.current?.scrollIntoView(false)
 			} else {
 				toast({
 					title: 'Oops! Something went wrong.',
@@ -53,7 +55,9 @@ export default function ChatWindow() {
 	}
 	return (
 		<div className="flex-grow flex flex-col justify-end gap-2 self-stretch">
-			<ScrollArea ref={scrollRef} className="flex flex-col justify-end items-end rounded-md max-h-[calc(100vh-130px)] mx-1 snap-end">
+			<ScrollArea
+				ref={scrollRef}
+				className="flex flex-col justify-end items-end rounded-md max-h-[calc(100vh-130px)] mx-1 snap-end">
 				{data.map((item, i) => (
 					<div key={i}>
 						<div className="flex justify-end px-4">
@@ -74,15 +78,21 @@ export default function ChatWindow() {
 					</div>
 				)}
 			</ScrollArea>
+			{!session && (
+				<div className="flex justify-center items-center border border-red-200 rounded-md w-full ">
+					<p className="text-xs italic text-red-500 p-2">Sign in to use the service</p>
+				</div>
+			)}
 			<div className="flex gap-2">
 				<Input
+					disabled={!session}
 					type="text"
 					placeholder="type your prompt here"
 					value={query}
 					onChange={(e) => setQuery(e.target.value)}
 					className="flex-grow"
 				/>
-				<Button disabled={isLoading} onClick={handleSubmit}>
+				<Button disabled={isLoading || !session} onClick={handleSubmit}>
 					{isLoading && <ComponentPlaceholderIcon className="mr-2 h-4 w-4 animate-spin" />}
 					Send
 				</Button>

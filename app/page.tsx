@@ -8,7 +8,7 @@ export default function Page() {
 	return (
 		<>
 			<Providers>
-				<div className="flex min-h-screen flex-col justify-between items-center gap-4 w-full max-w-screen-md mx-auto p-3">
+				<div className="flex min-h-dvh flex-col justify-between items-center gap-4 w-full max-w-screen-md mx-auto p-3">
 					<div className="w-full h-10">
 						<Navbar />
 					</div>

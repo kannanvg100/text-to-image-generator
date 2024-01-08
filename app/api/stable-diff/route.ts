@@ -7,7 +7,6 @@ export async function GET(request: Request) {
 		const query = searchParams.get('query')
 
 		// await new Promise((resolve) => setTimeout(resolve, 5000))
-		// console.log('done2')
 		// return NextResponse.json({
 		// 	success: true,
 		// 	output: [
