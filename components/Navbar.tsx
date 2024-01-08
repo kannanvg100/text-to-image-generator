@@ -11,7 +11,7 @@ export default function Navbar() {
 	return (
 		<div className="w-full flex justify-between items-center">
 			<Link href="/" legacyBehavior passHref>
-				<p className="text-lg font-bold">Stable Diffusion</p>
+				<p className="text-lg font-bold">Stable Diffusion.</p>
 			</Link>
 			<UserAvatar />
 		</div>

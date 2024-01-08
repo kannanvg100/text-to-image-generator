@@ -6,13 +6,13 @@ export async function GET(request: Request) {
 		const { searchParams } = new URL(request.url)
 		const query = searchParams.get('query')
 
-		// await new Promise((resolve) => setTimeout(resolve, 5000))
-		// return NextResponse.json({
-		// 	success: true,
-		// 	output: [
-		// 		'https://replicate.com/api/models/stability-ai/stable-diffusion/files/50fcac81-865d-499e-81ac-49de0cb79264/out-0.png',
-		// 	],
-		// })
+		await new Promise((resolve) => setTimeout(resolve, 5000))
+		return NextResponse.json({
+			success: true,
+			output: [
+				'https://replicate.com/api/models/stability-ai/stable-diffusion/files/50fcac81-865d-499e-81ac-49de0cb79264/out-0.png',
+			],
+		})
 
 		const replicate = new Replicate({
 			auth: process.env.REPLICATE_API_TOKEN,

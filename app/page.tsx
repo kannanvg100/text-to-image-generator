@@ -3,6 +3,7 @@ import ChatWindow from '@/components/ChatWindow'
 import Navbar from '@/components/Navbar'
 import { Toaster } from '@/components/ui/toaster'
 import Providers from './Providers'
+export const dynamic = 'force-dynamic'
 
 export default function Page() {
 	return (
