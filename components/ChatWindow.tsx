@@ -32,7 +32,11 @@ export default function ChatWindow() {
 		setIsLoading(true)
 		try {
 			if (query.trim() === '') return
-			const res = await fetch(`/api/stable-diff?query=${query}`).then((res) => res.json())
+			const res = await fetch(`/api/stable-diff?query=${query}`).then((res) => {
+			    console.log("📄 > file: ChatWindow.tsx:37 > handleSubmit > res:", res)
+			    console.error("📄 > file: ChatWindow.tsx:37 > handleSubmit > res:", res)
+			    return res.json()
+			})
 			if (res?.success) {
 				setData((prev) => [...prev, { image: res.output[0], prompt: query }])
 				setQuery('')
@@ -47,7 +51,7 @@ export default function ChatWindow() {
 		} catch (e) {
             console.log(e)
 			toast({
-				title: 'Oops! Something went wrong.',
+				title: 'Oops! Something went wrong..',
 				description: 'Please try again later',
 			})
 			setIsLoading(false)
